@@ -1,0 +1,42 @@
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  min-width: $content-width;
+  padding: 10vh calc(50% - #{$content-width} / 2);
+
+  & > div:nth-child(n) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $card-size;
+    height: $card-size;
+    border: 1px solid black;
+    background-color: #eee;
+    transition: background-color 0.5s, transform 0.5s;
+
+    &:hover {
+      transform: translate(0, -20px);
+      background-color: #ffbfcb;
+      cursor: pointer;
+    }
+  }
+
+  @for $i from 1 through 31 {
+    & > div:nth-child(#{$i})::after {
+      content: "#{$i}";
+    }
+  }
+
+  @for $k from 28 to 31 {
+    &-#{$k} > div:nth-child(n + #{$k + 1}) {
+      display: none;
+    }
+  }
+
+  @each $day, $gap in $days {
+    &-#{$day} > div:first-child {
+      margin-left: $margin * $gap;
+    }
+  }
+}
